@@ -1,230 +1,81 @@
-1. Introduction
+# Détection de Fraude sur Cartes Bancaires
 
-La fraude par carte bancaire est un enjeu majeur pour les institutions financières. Chaque année, des milliers de transactions frauduleuses causent des pertes économiques importantes.
-Ce projet a pour objectif de développer un modèle de Machine Learning capable de détecter automatiquement les transactions frauduleuses parmi un très grand volume de données, tout en minimisant les faux positifs.
+Projet de détection de fraude à la carte bancaire basé sur le dataset public **Credit Card Fraud Detection** (Kaggle – MLG ULB / Worldline).[web:2]
 
-Le dataset utilisé provient de Kaggle et contient des transactions bancaires anonymisées effectuées par des clients européens en 2013.
+---
 
-🎯 2. Objectifs du Projet
+## 📌 Description du projet
 
-Détecter les transactions frauduleuses (Class = 1)
+Ce projet vise à construire un modèle de Machine Learning capable d’identifier automatiquement les transactions frauduleuses à partir de données réelles de cartes bancaires européennes.[web:2][web:9]  
+Le jeu de données est extrêmement déséquilibré (≈ 0,172 % de fraudes), ce qui en fait un cas typique de classification avec classes rares.[web:2]
 
-Gérer un dataset très déséquilibré (0.172% de fraudes)
+---
 
-Comparer plusieurs modèles de Machine Learning
+## 🗂️ Dataset
 
-Optimiser les performances en termes de :
+- Source : Kaggle – *Credit Card Fraud Detection* (MLG ULB / Worldline).[web:2]  
+- Nombre de transactions : 284 807  
+- Nombre de fraudes : 492 (≈ 0,172 %)  
+- Variables :
+  - `Time` : secondes depuis la première transaction.
+  - `Amount` : montant de la transaction.
+  - `V1` à `V28` : composantes issues d’une PCA (données anonymisées).[web:2]
+  - `Class` : cible binaire (0 = normal, 1 = fraude).
 
-Recall (priorité métier)
+> Le fichier CSV n’est pas inclus dans le dépôt et doit être téléchargé directement depuis Kaggle.[web:20]
 
-Precision
+---
 
-F1-score
+## 🧹 Prétraitement des données
 
-ROC-AUC
+Principales étapes de préparation :  
+- Suppression d’éventuels doublons et contrôle des valeurs manquantes.[web:2]  
+- Standardisation de `Time` et `Amount` (centrage-réduction).[web:2]  
+- Gestion du déséquilibre de classes avec :
+  - **SMOTE** pour sur-échantillonner la classe fraude.[web:7]
+  - `class_weight="balanced"` dans certains modèles pour pondérer la classe minoritaire.[web:7][web:9]
 
-Construire un pipeline complet : preprocessing → EDA → ML → évaluation
+---
 
-🗂️ 3. Dataset
+## 🔍 Analyse exploratoire (EDA)
 
-Nombre de lignes : 284 807
+- Étude de la distribution des montants (`Amount`) et du temps (`Time`).[web:2]  
+- Visualisation de la répartition des classes (fraude vs normal).[web:2]  
+- Analyse de certaines composantes PCA (ex. `V12`, `V14`, `V17`) montrant des patterns associés aux fraudes.[web:1][web:3]
 
-Nombre de colonnes : 31
+---
 
-Nombre de fraudes : 492
+## 🤖 Modèles utilisés
 
-Proportion de fraudes : 0.172%
+Plusieurs algorithmes de classification supervisée sont testés :  
+- **Régression logistique** (baseline).  
+- **Random Forest** (modèle d’arbres en ensemble, robuste au bruit).[web:5]  
+- **XGBoost / LightGBM** (gradient boosting sur arbres, adaptés aux patterns rares et données déséquilibrées).[web:8]
 
-Variables :
+Les modèles sont entraînés dans un pipeline intégrant prétraitement, gestion du déséquilibre et optimisation d’hyperparamètres.
 
-Time — secondes écoulées depuis la 1ère transaction
+---
 
-Amount — montant de la transaction
+## 📈 Métriques d’évaluation
 
-V1 à V28 — composantes PCA anonymisées
+L’accuracy seule n’est pas pertinente dans ce contexte déséquilibré.[web:9]  
+Les métriques suivies sont :  
+- **Recall** sur la classe fraude (priorité métier).  
+- **Precision** sur la classe fraude.  
+- **F1-score**.  
+- **Matrice de confusion**.  
+- **ROC-AUC** et **Precision–Recall AUC**, plus informative lorsque la classe positive est rare.[web:9]
 
-Class — 0 (normal), 1 (fraude)
+---
 
-➡️ Dataset officiel : https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud
+## 🧠 Interprétabilité & améliorations
 
-🧹 4. Prétraitement des données
+Pistes d’analyse et d’amélioration :  
+- Utilisation de **SHAP** pour interpréter les décisions des modèles de type XGBoost / LightGBM.[web:8]  
+- Exploration de modèles **deep learning** (autoencodeurs, LSTM) pour la détection d’anomalies et la prise en compte de la dimension temporelle.[web:4]  
+- Intégration possible de nouvelles variables comportementales (device, localisation, historique client) dans un contexte réel.[web:6]
 
-Les étapes suivantes ont été appliquées :
+---
 
-✔ Nettoyage
+## 📦 Installation
 
-Suppression des doublons
-
-Vérification des valeurs manquantes
-
-✔ Normalisation
-
-Standardisation de Amount
-
-Time optionnel selon la modélisation
-
-✔ Gestion du déséquilibre
-
-Deux stratégies testées :
-
-SMOTE (oversampling)
-
-Class weight = "balanced"
-
-✔ Train / Test split
-
-Séparation stratifiée en fonction de la classe
-
-📊 5. Analyse Exploratoire (EDA)
-
-L’EDA comprend :
-
-Analyse de la distribution des montants
-
-Visualisation du déséquilibre des classes
-
-Étude des corrélations entre les composantes PCA
-
-Boxplots / histogrammes par classe
-
-Analyse temporelle des transactions (Time)
-
-Chaque graphique est accompagné d’une interprétation détaillée.
-
-🤖 6. Modélisation Machine Learning
-
-Plusieurs modèles ont été testés :
-
-🔹 Régression Logistique
-
-Baseline simple
-
-Performances correctes mais limitées
-
-🔹 Random Forest
-
-Bon équilibre précision / rappel
-
-Résultats robustes
-
-🔹 XGBoost (meilleur modèle)
-
-Excellentes performances
-
-Très bon rappel
-
-Très bon F1-score
-
-Capacité à repérer des patterns rares
-
-✔ Optimisation
-
-Validation croisée (5 folds)
-
-GridSearchCV pour hyperparamètres
-
-Test de différents seuils de classification (threshold tuning)
-
-📈 7. Évaluation des modèles
-Métriques utilisées :
-
-Recall
-
-Precision
-
-F1-score
-
-ROC-AUC
-
-Confusion Matrix
-
-Precision-Recall Curve (indispensable pour données déséquilibrées)
-
-Résultat final :
-
-XGBoost est le modèle le plus performant, capable de détecter la majorité des fraudes avec un faible taux de faux positifs.
-
-Les métriques finales détaillées sont disponibles dans le notebook.
-
-📁 8. Arborescence du projet
-├── data/
-│   └── creditcard.csv
-├── notebooks/
-│   └── credit_fraud_detection.ipynb
-├── src/
-│   ├── preprocessing.py
-│   ├── modeling.py
-│   └── evaluation.py
-├── README.md
-├── requirements.txt
-└── rapport.md
-
-📝 9. Installation & Exécution
-🔧 1. Installer les dépendances :
-pip install -r requirements.txt
-
-▶️ 2. Lancer le notebook :
-jupyter notebook notebooks/credit_fraud_detection.ipynb
-
-📦 10. Technologies utilisées
-
-Python
-
-NumPy
-
-Pandas
-
-Matplotlib / Seaborn
-
-Scikit-Learn
-
-XGBoost
-
-Imbalanced-Learn
-
-Jupyter Notebook
-
-🎥 11. Présentation (Data Storytelling)
-
-Une vidéo (5–10 minutes) explique :
-
-Le contexte métier
-
-La démarche
-
-Les choix techniques
-
-Les résultats
-
-Les limites & améliorations
-
-🧾 12. Résultats principaux
-
-Le modèle final atteint un rappel très élevé, essentiel pour la détection de fraude
-
-Le dataset déséquilibré a été efficacement géré
-
-La pipeline complète est reproductible à partir du notebook
-
-Le projet montre la faisabilité d'un système intelligent de détection de fraude bancaire
-
-🧠 13. Limites & pistes d’amélioration
-🔸 Limites :
-
-Variables PCA anonymisées → interprétation difficile
-
-Dataset limité à 2 jours seulement
-
-Pas de données comportementales (géolocalisation, device, historique client…)
-
-🔸 Améliorations possibles :
-
-Ajouter des explications via SHAP
-
-Tester des auto-encodeurs (autoencoder anomaly detection)
-
-Intégrer des données temporelles (LSTM)
-
-Ajuster dynamiquement le seuil selon le risque
-
-Enrichir les données avec des features métier
