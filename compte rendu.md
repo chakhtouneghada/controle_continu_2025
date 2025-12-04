@@ -125,4 +125,9 @@ Pistes d’amélioration :
 
 La détection de fraude sur cartes bancaires illustre un problème typique de **classification déséquilibrée**, où la rareté des fraudes impose de privilégier la sensibilité et la précision sur la classe minoritaire plutôt que l’accuracy globale.[web:26][web:28] En combinant un prétraitement adapté, une analyse exploratoire ciblée et des modèles avancés tels que XGBoost ou LightGBM, il est possible de construire un système de Machine Learning capable d’identifier une proportion importante de transactions frauduleuses tout en maîtrisant les faux positifs.[web:8][web:20]
 
-Ce projet montre le potentiel des approches data-driven pour renforcer la sécurité des paiements, réduire les pertes financières et améliorer la confiance des utilisateurs, à condition d’actualiser régulièrement les données, de surveiller les performances et de fournir des explications claires aux équipes métier et aux régulateurs.[web:6][web:9]
+Ce projet montre le potentiel des approches data-driven pour renforcer la sécurité des paiements, réduire les pertes financières et améliorer la confiance des utilisateurs, à condition d’actualiser régulièrement les données, de surveiller les performances et de fournir des explications claires aux équipes métier et aux régulateurs.
+
+<img width="403" height="509" alt="image" src="https://github.com/user-attachments/assets/dedac2a4-cbdc-4831-bd02-16e3797254e3" />
+<img width="956" height="876" alt="image" src="https://github.com/user-attachments/assets/fc7ee78c-ae1a-4c38-a8fd-015ae1d8f26f" />
+
+
