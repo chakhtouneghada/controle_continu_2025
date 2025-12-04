@@ -129,5 +129,9 @@ Ce projet montre le potentiel des approches data-driven pour renforcer la sécur
 
 <img width="403" height="509" alt="image" src="https://github.com/user-attachments/assets/dedac2a4-cbdc-4831-bd02-16e3797254e3" />
 <img width="956" height="876" alt="image" src="https://github.com/user-attachments/assets/fc7ee78c-ae1a-4c38-a8fd-015ae1d8f26f" />
+<img width="536" height="393" alt="image" src="https://github.com/user-attachments/assets/451c710e-5aa8-4e81-a817-510a98671a7c" />
+<img width="568" height="393" alt="image" src="https://github.com/user-attachments/assets/b438afdd-93b2-41c9-a790-b585c62b9afe" />
+
+
 
 
