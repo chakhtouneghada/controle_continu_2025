@@ -1,6 +1,6 @@
 # Détection de Fraude sur Cartes Bancaires
 
-Projet de détection de fraude à la carte bancaire basé sur le dataset public **Credit Card Fraud Detection** (Kaggle – MLG ULB / Worldline).[web:2]
+Projet de détection de fraude à la carte bancaire basé sur le dataset public **Credit Card Fraud Detection** 
 
 ---
 
